@@ -9,6 +9,7 @@
           hours: [12,1,2,3,4,5,6,7,8,9,10,11],
           height: 500,
           width: 500,
+          caption: '',
           onUpdate: function() {}
         };
         function extend(a, b){
@@ -45,7 +46,7 @@
           this.caption.setAttribute('class', 'caption');
           this.caption.setAttribute('x', '50');
           this.caption.setAttribute('y', '50');
-          this.caption.innerHTML = '<tspan x="50" y="50">Fai un respiro profondo...</tspan><tspan x="50" y="54"> ora puoi iniziare.</tspan>';
+          this.caption.innerHTML = this.options.caption;
           this.svg.appendChild(this.caption);
           
           this.numbers = document.createElementNS("http://www.w3.org/2000/svg", 'g');
