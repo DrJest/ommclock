@@ -3,6 +3,7 @@
         this.run = false;
         this.svg = null;
         this.startTime = null;
+        this.stopTime = null;
         this.defaults = {
           class: 'clock',
           duration: 60000,
@@ -78,16 +79,38 @@
         }
 
         this.start = () => {
-          this.startTime = new Date().getTime();
+          if(this.run === 1) {
+            return;
+          }
+          if(this.startTime === null) {
+            this.startTime = new Date().getTime();
+          }
+          if(this.stopTime !== null && this.startTime !== null) {
+            this.startTime = new Date().getTime() - this.stopTime + this.startTime;
+          }
+          this.stopTime = null;
           this.run = 1;
           this.tick();
         }
 
         this.stop = () => {
+          if(this.run === 0) {
+            return;
+          }
+          this.stopTime = new Date().getTime();
           this.run = 0;
         }
 
+        this.revert = () => {
+          this.run = 0;
+          this.startTime = null;
+          this.stopTime = null;
+          this.svg.querySelector('.minutehand').setAttribute("transform", "rotate(0,50,50)");
+        }
+
         this.tick = () => {
+          if(!this.run)
+            return;
           let duration = new Date().getTime() - this.startTime;
           let angle = 360 * duration / this.options.duration;
           this.svg.querySelector('.minutehand').setAttribute("transform", "rotate(" + angle + ",50,50)");
